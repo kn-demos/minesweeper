@@ -1,0 +1,79 @@
+@if $use-minesweeper-sprite == true{
+
+/*------------------------------------*\
+    $SPRITE
+\*------------------------------------*/
+
+  .sprite {
+    background-image: url(../images/sprite100.gif);
+  }
+
+  .sprite--tile, .sprite--danger, .sprite--empty, .sprite--mine {
+    width: 16px;
+    height: 16px
+  }
+
+  .sprite--smiley {
+    background-position: 0 -55px;
+    width: 26px;
+    height: 26px;
+  }
+
+  .pressed.sprite--smiley {
+    background-position: -25px -55px;
+  }
+
+  .sprite--tile {
+    background-position: 0px -39px;
+  }
+
+  .sprite--tile-flag {
+    background-position: -16px -39px;
+  }
+
+  .sprite--tile-question {
+    background-position: -81px -39px;
+  }
+
+  .sprite--tile-question-pressed {
+    background-position: -97px -39px;
+  }
+
+  .sprite--empty {
+    background-position: 0px -23px;
+  }
+
+  .sprite--danger-1 {
+    background-position: -16px -23px;
+  }
+  .sprite--danger-2 {
+    background-position: -32px -23px;
+  }
+  .sprite--danger-3 {
+    background-position: -48px -23px;
+  }
+  .sprite--danger-4 {
+    background-position: -64px -23px;
+  }
+  .sprite--danger-5 {
+    background-position: -80px -23px;
+  }
+  .sprite--danger-6 {
+    background-position: -96px -23px;
+  }
+  .sprite--danger-7 {
+    background-position: -112px -23px;
+  }
+  .sprite--danger-8 {
+    background-position: -128px -23px;
+  }
+
+  .sprite--mine {
+    background-position: -64px -39px;
+  }
+
+  .sprite--mine-fail {
+    background-position: -33px -39px;
+  }
+
+}

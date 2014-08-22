@@ -1,0 +1,69 @@
+/*------------------------------------*\
+    BASE.SCSS
+\*------------------------------------*/
+/**
+ * Base file that loads all the inuit/br framework files based on variable () switch
+ */
+
+/*------------------------------------*\
+    $CONTENTS
+\*------------------------------------*/
+/**
+ * CONTENTS...................You’re reading it!
+ * OBJECTS-AND-ABSTRACTIONS...Base object and abstraction loading
+ *
+ * INUIT......................Inuit files import
+ *
+ * IMPORTS....................Begin importing the sections below
+ *
+ * MIXINS.....................Super-simple Sass stuff
+ *
+ * DROPDOWN...................Dropdown click object
+ *
+ * HELPER.....................A series of helper classes to use arbitrarily
+ *
+ */
+
+
+/*------------------------------------*\
+   $INUIT
+\*------------------------------------*/
+@import "../inuit/css/inuit.css/inuit";
+
+
+ /*------------------------------------*\
+    $IMPORTS
+\*------------------------------------*/
+/**
+ * Generic utility styles etc.
+ */
+@import "defaults";
+
+
+/**
+ * Base styles; unclassed HTML elements etc.
+ */
+
+
+
+/**
+ * Objects and abstractions
+ */
+@import "objects/sprite";
+@import "objects/dropdown";
+
+
+/**
+ * Common modules
+ */
+
+
+/**
+ * Common components
+ */
+
+
+
+/**
+ * Style trumps; helper and brand classes
+ */

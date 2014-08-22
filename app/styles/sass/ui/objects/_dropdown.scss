@@ -1,0 +1,43 @@
+@if $use-dropdown == true{
+/*------------------------------------*\
+    $DROPDOWN
+\*------------------------------------*/
+/**
+ * Dropdowns are pieces of content that fly out of a parent when said parent is
+ * hovered. They typically appear bottom-left of the parent.
+ *
+   <div class=dropdown>
+       Foo
+       <div class=dropdown__content>
+           <h1>Lorem</h1>
+           <p>Ipsum</p>
+       </div>
+   </div>
+ *
+ * Extend these objects in your theme stylesheet.
+ *
+ */
+    .dropdown {
+        &, & li { position:relative; }
+    }
+
+    .dropdown--arrow {
+        &:after {
+            @include arrow(bottom, center, $brand-color);
+        }
+    }
+        .dropdown__content {
+            /**
+             * Position the dropdowns off-screen. This is typically better than
+             * `display:none;`.
+             */
+            position:absolute;
+            top:100%;
+            left:-99999px;
+            z-index: 1000002;
+
+            &.active {
+              left: 0;
+            }
+        }
+}
