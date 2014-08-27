@@ -13,7 +13,7 @@ window.MineSweeper.module('NavApp.Nav', function(Nav, App, Backbone, Marionette,
             var nav = $(e.target).siblings('.dropdown__content');
 
             if(nav && this.open_nav && nav[0] !== this.open_nav[0]) {
-                this.closeNav(false);
+                this.closeNav();
             }
 
             if(!this.open_nav) {
@@ -38,16 +38,21 @@ window.MineSweeper.module('NavApp.Nav', function(Nav, App, Backbone, Marionette,
             this.open_nav.toggleClass('active', toggle);
         },
 
-        start: function() {
-            App.vent.trigger('game:start');
+        start: function(e) {
+            var difficulty =  $(e.target).data('difficulty');
+
+            App.vent.trigger('game:start', difficulty);
+            this.closeNav();
         },
 
         cheat: function() {
             App.vent.trigger('game:cheat');
+            this.closeNav();
         },
 
         validate: function() {
             App.vent.trigger('game:validate');
+            this.closeNav();
         }
     });
 });

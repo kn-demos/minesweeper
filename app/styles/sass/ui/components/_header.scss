@@ -1,6 +1,12 @@
 .nav--main {
-  .dropdown__content {
-    width: 100px;
-    background-color: #a9a9a9;
+  margin-bottom: 10px;
+
+  > li {
+    padding: 0 5px;
+  }
+
+  a {
+    text-decoration: none;
+    color: black;
   }
 }

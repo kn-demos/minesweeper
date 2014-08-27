@@ -33,6 +33,10 @@ window.MineSweeper.module('Entities', function(Entities, App, Backbone, Marionet
             }
 
             this.set('flag', flag);
+        },
+
+        isFlagged: function() {
+            return this.get('flag') === 1;
         }
     });
 
@@ -40,22 +44,31 @@ window.MineSweeper.module('Entities', function(Entities, App, Backbone, Marionet
         Model: Entities.Tile,
 
         initialize: function(models, options) {
-            this.dims = options.dims;
-            this.mines = options.mines;
+            _.extend(this, {
+                dims: options.dims,
+                tiles: options.dims.width * options.dims.height,
+                mines: options.mines,
+                clicking: false,
+                revealed: 0,
+                win: false,
+                fail: false
+            });
+
+            this.on('change:revealed', this.trackRevealed, this);
         },
 
         placeMines: function(mines) {
             var i, tile, rand,
-                min = 0, max = this.dims.width * this.dims.height;
+                min = 0;
 
-            this.mines = mines;
+            this.mines = mines; // maybe take this out
 
             for(i = 0; i < mines; i++) {
-                rand = _.random(min, max),
+                rand = _.random(min, this.tiles),
                 tile = this.models[rand];
 
                 while(tile == undefined || tile.get('mine') === true) {
-                    tile = this.models[_.random(min, max)];
+                    tile = this.models[_.random(min, this.tiles)];
                 }
 
                 tile.set('mine', true);
@@ -147,24 +160,32 @@ window.MineSweeper.module('Entities', function(Entities, App, Backbone, Marionet
 
         checkMines: function() {
             var status = 1,
-                tiles = _.filter(this.collection, function(model) {
+                tiles = _.filter(this.models, function(model) {
                     return model.get('flag') > 0
                 });
-            console.log(tiles);
+
             if(tiles.length < this.mines) {
                 status = 0;
             }
             else {
                 _.each(tiles, function(tile) {
-                    if(tile.get('flag') > 0 && !tile.get('mine')) {
+                    if(!tile.get('mine')) {
                         status = 0;
                         return;
                     }
                 });
             }
 
-            console.log(status);
             return status;
+        },
+
+        trackRevealed: function() {
+            this.revealed++;
+
+            // trigger win
+            if(this.revealed === (this.tiles - this.mines)) {
+                this.trigger('game:win');
+            }
         },
 
         inBounds: function(tile) {
@@ -178,7 +199,6 @@ window.MineSweeper.module('Entities', function(Entities, App, Backbone, Marionet
     API = {
         getBoard: function(params) {
             var tiles, i, j, pos = 0, models = [];
-
 
             _.defaults(params, {
                 // defaults here

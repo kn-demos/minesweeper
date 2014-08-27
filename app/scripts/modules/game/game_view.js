@@ -17,57 +17,29 @@ window.MineSweeper.module('GameApp.Game', function(Game, App, Backbone, Marionet
                 t = '<span class="sprite sprite--empty"></span>';
             }
 
-            return _.template(t);
+            return t;
         },
 
         events: {
-            'mousedown': 'handleMouseEvent',
+            'mousedown': 'clickHandler',
             'mouseup': 'clickHandler',
-            'mouseout': 'handleMouseEvent'
-            //,'mousin': 'handleMouseEvent'
+            'mouseout': 'mouseHover',
+            'mouseenter': 'mouseHover'
         },
 
         modelEvents: {
-            'change:revealed': 'toggleRevealed',
+            'change:revealed': 'reveal',
             'change:flag': 'toggleFlag'
         },
 
         className: 'game__tile sprite sprite--tile',
 
-        initialize: function() {
-            this.clicking = false;
-            this.flagging = false;
-        },
-
-        handleMouseEvent: function(e) {
-            var toggle;
-
-            if(e.type === 'mousedown' && (e.ctrlKey || e.button==2)) {
-                this.flagging = true;
-                this.model.toggleFlag();
-                return false;
-            }
-
-            if(e.type === 'mousedown' || (this.clicking && e.type === 'mousin')) {
-                toggle = true;
-
-                if(e.type === 'mousedown') {
-                    this.clicking = true;
-                }
-            }
-            else {
-                toggle = false;
-            }
-
-            this.togglePressed(toggle);
-        },
-
         togglePressed: function(toggle) {
             this.$el.toggleClass('pressed', toggle);
         },
 
-        toggleRevealed: function() {
-            this.$el.toggleClass('revealed');
+        reveal: function() {
+            this.$el.addClass('revealed').removeClass('question flag pressed');
         },
 
         toggleFlag: function() {
@@ -78,22 +50,33 @@ window.MineSweeper.module('GameApp.Game', function(Game, App, Backbone, Marionet
                     this.$el.removeClass('flag question');
                     break;
                 case 1:
-                    this.$el.removeClass('flag');
-                    this.$el.addClass('question');
-                    break;
-                case 2:
                     this.$el.removeClass('question');
                     this.$el.addClass('flag');
+                    break;
+                case 2:
+                    this.$el.removeClass('flag');
+                    this.$el.addClass('question');
                     break;
             }
         },
 
-        clickHandler: function(e) {
-            if(!this.flagging) {
-                this.clicking = false;
-                this.handleMouseEvent(e);
-                this.trigger('tile:click');
+        mouseHover: function(e) {
+            var toggle;
+
+            if(this.model.collection.clicking && e.type === 'mouseenter') {
+                toggle = true;
             }
+            else if(e.type === 'mouseout') {
+                toggle = false;
+            }
+
+            if(toggle != null) {
+                this.togglePressed(toggle);
+            }
+        },
+
+        clickHandler: function(e) {
+            this.trigger('tile:click', e);
         }
 
     });
@@ -101,10 +84,12 @@ window.MineSweeper.module('GameApp.Game', function(Game, App, Backbone, Marionet
     Game.Board = Marionette.CompositeView.extend({
         childView: Game.Tile,
         childViewContainer: '.game__board',
-        template: _.template("<ul class='nav game__header'>"
-            + " <li><div class='sprite sprite--smiley js-start'></div></li>"
-            + "</ul>"
-            + "<ul class='game__board grid cf'></ul>"),
+        template: function() {
+            return "<ul class='nav game__header'>"
+                + " <li><div class='sprite sprite--smiley js-start'></div></li>"
+                + "</ul>"
+                + "<ul class='game__board grid cf'></ul>"
+        },
 
         className: 'game',
         tile_size: 16,
@@ -117,6 +102,15 @@ window.MineSweeper.module('GameApp.Game', function(Game, App, Backbone, Marionet
         events: {
             'mousedown @ui.start': 'pressStart',
             'mouseup  @ui.start': 'startGame'
+        },
+
+        childEvents: {
+            'click:toggle': 'toggleClicking'
+        },
+
+        toggleClicking: function(child, toggle) {
+            this.collection.clicking = toggle;
+            this.$el.toggleClass('clicking', toggle);
         },
 
         onRender: function() {

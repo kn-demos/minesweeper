@@ -19,8 +19,21 @@
     height: 26px;
   }
 
-  .pressed.sprite--smiley {
-    background-position: -25px -55px;
+  .sprite--smiley-pressed {
+     background-position: -26px -55px;
+  }
+
+  .sprite--smiley-clicking {
+    background-position: -52px -55px;
+  }
+
+
+  .sprite--smiley-fail {
+    background-position: -78px -55px;
+  }
+
+  .sprite--smiley-win {
+    background-position: -104px -55px;
   }
 
   .sprite--tile {

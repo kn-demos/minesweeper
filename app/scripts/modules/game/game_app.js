@@ -4,11 +4,19 @@ window.MineSweeper.module('GameApp', function(GameApp, App, Backbone, Marionette
     var API, Game;
 
     API = {
-        start: function() {
+        start: function(difficulty) {
             API.close();
+            
+            if(difficulty) {
+                localStorage.setItem('difficulty', difficulty);
+            }
+            else {
+                difficulty = localStorage.getItem('difficulty');
+            }
 
             return new GameApp.Game.Controller({
-                region: App.GameRegion
+                region: App.GameRegion,
+                difficulty: difficulty || 'easy'
             });
         },
 
@@ -34,8 +42,8 @@ window.MineSweeper.module('GameApp', function(GameApp, App, Backbone, Marionette
         Game = API.start();
     });
 
-    App.vent.on('game:start', function() {
-        API.start();
+    App.vent.on('game:start', function(difficulty) {
+        API.start(difficulty);
     });
 
     App.vent.on('game:cheat', function() {

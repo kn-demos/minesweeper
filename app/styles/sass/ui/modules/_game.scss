@@ -3,7 +3,6 @@ body {
 }
 
 .minesweeper {
-  width:  300px;
   border: 2px solid white;
   border-right-color: darkgray;
   border-bottom-color: darkgray;
@@ -15,6 +14,24 @@ body {
      &.cheat, &.fail {
        .sprite--mine {
          display: block;
+       }
+     }
+
+     &.fail {
+       .game__header .sprite--smiley {
+         @extend .sprite--smiley-fail;
+       }
+     }
+
+     &.win {
+       .game__header .sprite--smiley {
+         @extend .sprite--smiley-win;
+       }
+     }
+
+     &.clicking {
+       .game__header .sprite--smiley {
+         @extend .sprite--smiley-clicking;
        }
      }
    }
