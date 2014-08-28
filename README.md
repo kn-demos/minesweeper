@@ -1,0 +1,1 @@
+A contrived and over engineered minesweeper game showcasing some of the patterns I've been using lately with Marionette as well as the usage and extension of inuit.css which utilizes smaccs and object oriented css patterns.
