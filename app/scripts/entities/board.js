@@ -141,7 +141,7 @@ window.MineSweeper.module('Entities', function(Entities, App, Backbone, Marionet
                 curr = q.shift();
 
                 if(curr.get('danger') === 0) {
-                    _.each(this.getNeighbors(curr), _.bind(function(neighbor) {
+                    _.each(this.getNeighbors(curr, true), _.bind(function(neighbor) {
                         if(neighbor && !neighbor.get('mine') && this.inBounds(neighbor) && !visited[neighbor.cid]) {
                             visited[neighbor.cid] = true;
 
